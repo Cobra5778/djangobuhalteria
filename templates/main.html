@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="ru">
+	<head>
+		<link rel="shortcut icon" href="{% static 'Icons/icon-rusn.svg' %}" type="image/svg+xml">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'bootstrap-4.3.1/css/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/mdb.min.css' %}">
+		<!-- Your custom styles (optional) -->
+		<link href="{% static 'MDB-Free_4.8.5/css/style.css' %}" rel="stylesheet">  
+  		<title>Добро пожаловать</title>
+	</head>
+	<body>
+{% include 'bar_buh.html' %}
+{% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
+{% if user.is_staff %}
+<form action="#" method="post">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<br>
+				<label>Добро пожаловать в мир бухгалтерии. Прекрастной и беспощадной.</label>
+			</div>
+		</div>
+	</div>
+	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/mdb.min.js' %}"></script>
+
+	<script>
+			$(document).ready(function () {
+			$('#main').addClass('active');
+			$('#dtBasicExample').DataTable({
+			"ordering": true 
+			});
+			$('.dataTables_length').addClass('bs-select');
+			});
+		</script>
+</form>  
+{% endif %}
+	</body>
+</html>

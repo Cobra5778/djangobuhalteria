@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+{% load static %}
+<head>
+{% include 'common_head.html' %}
+		<link rel="stylesheet" href="{% static 'bases/login.css' %}">
+  <title>Авторизация</title>
+</head>
+<body>
+{% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}		{% block content %}{% endblock %}
+<form action="{% url 'logins' %}" method="post">
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+			<div class="fadeIn first">
+			    <div class="card text-left">
+			        <div class="card-body">	    
+					            <div class="text-center cyan-text">
+					                <h3><i class="fas fa-lock cyan-text"></i> Login:</h3><hr>
+					            </div>
+			            <div class="md-form">
+			                <i class="fas fa-user prefix grey-text"></i>
+			                <input type="text" id="cyanForm-email" class="form-control" name="username">
+			                <label for="cyanForm-email">Your login</label>
+			            </div>
+			            <div class="md-form">
+			                <i class="fas fa-lock prefix grey-text"></i>
+			                <input type="password" id="cyanForm-pass" class="form-control" name="password">
+			                <label for="cyanForm-pass">Your password</label>
+			            </div>
+			            <div class="text-center">
+			                <button class="btn btn-info waves-effect waves-light" name="login">Login</button>
+			            </div>
+					    <!--  <div id="formFooter">
+					      <a class="underlineHover" href="#">Forgot Password?</a>
+					    </div> -->
+				    </div>
+		    	</div>
+			</div>
+		</div>
+	</div>
+</form>
+	
+		<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
+		<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
+		<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'MDB-Free_4.8.5/js/mdb.min.js' %}"></script> 	
+</body>

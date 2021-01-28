@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="ru">
+	<head>
+		<link rel="shortcut icon" href="{% static 'Icons/icon-rusn.svg' %}" type="image/svg+xml">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'bootstrap-4.3.1/css/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/mdb.min.css' %}">
+		<!-- Your custom styles (optional) -->
+		<link href="{% static 'MDB-Free_4.8.5/css/style.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/addons/datatables.min.css' %}">  
+  		<title>Счета-фактуры</title>
+	</head>
+	<body>
+{% include 'bar_buh.html' %}
+{% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
+{% if user.is_staff %}
+
+<form action="#" method="post" >
+		<div class="container-fluid" id="dtBasicExample" data-range="0">
+			<div id="nav_mounth" class="row"></div>
+			{% if table_data %}<div class="row">
+				{% for data in table_data %}<div class="col-sm-12 col-md-2">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" name="group-options" id="gr{{ data.0 }}" value="{{ data.0 }}"><label class="custom-control-label" for="gr{{ data.0 }}" >{{ data.1 }}</label>
+					</div>
+			 	</div>{% endfor %}
+			</div>{% endif %}	
+			<div class="row"> 	
+			 	<div class="col-sm-12 col-md-3">
+					<div class="custom-control custom-checkbox">
+						<input type="checkbox" class="custom-control-input" id="SubDog" name="SubDog" checked><label class="custom-control-label" for="SubDog">Игнорировать субдоговора</label>
+					</div>
+			 	</div>
+				<div class="col-sm-12 col-md-3">
+					<a id="cus_url" href="#"><input class="btn-sm btn-primary" type="button" name="show_btn" id="show-btn" value="Показать результаты сравнения"></a>
+				</div>				 	
+			</div>
+			<div class="row"> 	
+			 	<div class="col-sm-12">
+					<div class="row" id="data-table"></div>
+			 	</div>
+			</div>			
+		</div>
+	{% endif %}
+	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/mdb.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			// Когда страница загрузилась
+			$(document).ready(function() {
+				$('#compare').addClass('active');
+			    // Загружаем nav_mounth
+			    //alert ("rerwerr");
+				$.get('{% url 'nav_mounth_TTK' %}', {'range': $('#dtBasicExample').data('range')}, function(data) {
+					$('#nav_mounth').html(data);
+				});
+			});
+			// Когда нажимают кнопку ПОКАЗАТЬ РЕЗУЛЬТАТЫ
+			$('#show-btn').click(function(e){
+				//document.getElementById('cus_url').href = "{% url 'export_ballanse_xlsx' %}?range=" + $('#dtBasicExample').data('range');
+				// Крутиться спинер
+			    $('#data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 	
+				//Пребираем chekbox'сы собираем массив из выделенных
+				var checkboxes = document.getElementsByName('group-options');
+				var checkboxesChecked = []; // можно в массиве их хранить, если нужно использовать 
+				var res = "";
+				for (var index = 0; index < checkboxes.length; index++) {
+				   if (checkboxes[index].checked) {
+				      //checkboxesChecked.push(checkboxes[index].value); // положим в массив выбранный
+				      res = res + String.fromCharCode(checkboxes[index].value);
+				      //alert(checkboxes[index].value); // делайте что нужно - это для наглядности
+				   }
+				}
+				//alert(document.getElementsByName('SubDog')[0].checked);
+			    // Загружаем данные
+			    $.get('{% url 'sf_result' %}',{'range': $('#dtBasicExample').data('range'), 'res' : res, 'subs' : document.getElementsByName('SubDog')[0].checked, }, function(data) {
+			    	$('#data-table').html(data);
+			    });				
+			});					
+		});
+	</script>
+</form>
+	</body>
+</html>

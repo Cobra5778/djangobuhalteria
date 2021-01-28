@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="ru">
+	<head>
+		<link rel="shortcut icon" href="{% static 'Icons/icon-rusn.svg' %}" type="image/svg+xml">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'bootstrap-4.3.1/css/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/mdb.min.css' %}">
+		<!-- Your custom styles (optional) -->
+		<link href="{% static 'MDB-Free_4.8.5/css/style.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/addons/datatables.min.css' %}">  
+  		<title>Баллансы</title>
+	</head>
+	<body>
+{% include 'bar_buh.html' %}
+{% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
+{% if user.is_staff %}
+
+<form action="#" method="post" >
+		<div class="container-fluid" id="dtBasicExample" data-range="0">
+			<!-- СКАКАЛКА ПО МЕСЯЦАМ -->
+			<div id="nav_mounth" class="row"></div>
+			<div class="row">
+				<div class="col-sm-12 col-md-1">
+					<a id="cus_url" href="#"><input class="btn-sm btn-primary" type="button" name="cus_key" id="cus-save-btn" value="Загрузить в формате Excel"></a>
+				</div>										
+			</div>			
+			<div class="row">
+				<div class="col-sm-12">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						  <li class="nav-item"><a class="nav-link active" id="commondata-tab" data-toggle="tab" href="#my_map" role="tab" aria-controls="my_map" aria-selected="true">Юрики</a></li>
+						  <li class="nav-item"><a class="nav-link" id="akt-tab" data-toggle="tab" href="#akt-data" role="tab" aria-controls="akt-data" aria-selected="false">Физики</a></li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+					<!-- Юрики -->
+						<div class="tab-pane fade show active" id="my_map" role="tabpanel" aria-labelledby="commondata-tab">
+							<div class="row" id="akt-data-table2"></div>
+						</div>
+					<!-- Физики -->
+						<div class="tab-pane fade" id="akt-data" role="tabpanel" aria-labelledby="akt-tab">
+							<div class="row" id="akt-data-table"></div>
+						</div>				
+					</div>					
+				</div>
+			</div>
+		</div>
+{% endif %}
+	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/mdb.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			// Когда страница загрузилась
+			$(document).ready(function() {
+				$('#ballance').addClass('active');
+			    // Загружаем nav_mounth
+			    //alert ("rerwerr") ;
+				$.get('{% url 'nav_ballansy' %}', {'range': $('#dtBasicExample').data('range')}, function(data) {
+					$('#nav_mounth').html(data);
+				});
+				// Крутиться спинер
+			    $('#akt-data-table2').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 
+				// Загружаем ЮРИКОВ
+			    $.get('{% url 'ballansy_uriki' %}',{'range': $('#dtBasicExample').data('range')}, function(data) {
+			    	$('#akt-data-table2').html(data);
+			    });				
+			});
+
+			// Когда кликают на закладку ЮРИКИ
+			$('#commondata-tab').click(function(e){
+				//alert ("rerwerr");
+				if ( $('#dtBasicExample').data('range') != $('#dtBasicExample').data('logsview') ) {
+					// Крутиться спинер
+				    $('#akt-data-table2').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+				    // Загружаем данные
+				    $.get('{% url 'ballansy_uriki' %}',{'range': $('#dtBasicExample').data('range')}, function(data) {
+				    	$('#akt-data-table2').html(data);
+				    });
+				};
+			});
+
+			// Когда кликают на закладку ФИЗИКИ
+			$('#akt-tab').click(function(e){
+				//alert ($('#dtBasicExample').data('range'));
+				if ( $('#dtBasicExample').data('range') != $('#dtBasicExample').data('logsview') ) {
+					// Крутиться спинер
+				    $('#akt-data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+				    // Загружаем данные
+				    $.get('{% url 'ballansy_fiziki' %}',{'range': $('#dtBasicExample').data('range')}, function(data) {
+				    	$('#akt-data-table').html(data);
+				    });
+				};
+			});
+			
+			// Когда нажимают кнопку ЗАГРУЗИТЬ В ФОРМАТЕ EXCEL
+			$('#cus-save-btn').click(function(e){
+				document.getElementById('cus_url').href = "{% url 'export_ballanse_xlsx' %}?range=" + $('#dtBasicExample').data('range');
+				//alert("BIL");
+			});			
+		});
+	</script>
+</form>
+	</body>
+</html>

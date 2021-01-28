@@ -1,0 +1,80 @@
+<div class="col-sm-12">
+	<div class="row justify-content-center" style="font-size: 1.5rem;" id="nav-mount-data" data-left="{{ table_prefix_scroll.3 }}" data-right="{{ table_prefix_scroll.5 }}">
+		{% if table_prefix_scroll.4 %}<a href="#">&nbsp;<i class="far fa-caret-square-left" ></i>&nbsp;</a>{% endif %}
+	  	{{ table_prefix_scroll.2|date:"F-Y" }}
+	  	{% if table_prefix_scroll.6 %}<a href="#">&nbsp;<i class="far fa-caret-square-right"></i>&nbsp;</a>{% endif %}
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		// Когда страница загрузилась
+		$(document).ready(function() {
+			// Присваиваем текущуу значение глобальной переменной
+			$('#dtBasicExample').data({'range': '{{ table_prefix_scroll.0 }}'});
+		    $.get('{% url 'Summ_Stoim_TTK' %}',{'range': '{{ table_prefix_scroll.0 }}'}, function(data) {$('#usl-cost input').val(data);});  
+		    $('#usl-cost input').change();			
+		});
+		// Когда кликают на СТРЕЛКУ ВЛЕВО {{ table_prefix_scroll.3 }}
+		$('.fa-caret-square-left').click(function(e){
+		    // Загружаем nav_mounth
+			$.get('{% url 'buh_nav_mounth' %}', {'range': '{{ table_prefix_scroll.3 }}'}, function(data) {
+				$('#nav_mounth').html(data);
+			});
+
+
+			if ($('#commondata-tab').attr('class') == 'nav-link active') {
+			    $.get('{% url 'Summ_Stoim_TTK' %}',{'range': '{{ table_prefix_scroll.3 }}'}, function(data) {$('#usl-cost input').val(data);});  
+			    $('#usl-cost input').change();
+			};						
+
+			if ($('#vigruz-tab').attr('class') == 'nav-link active') {
+			    var file_range = "{{ table_prefix_scroll.3 }}";
+			    file_range = file_range.slice(0, 4) + "_" + file_range.slice(4, 6);
+				$('#label_range_ANI').html(file_range);
+				$('#label_range_BIL').html(file_range);
+				$('#label_range_CUS').html(file_range);
+			};			
+						
+			if ($('#akt-tab').attr('class') == 'nav-link active') {
+				// Крутиться спинер
+			    $('#akt-data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 
+			    // Загружаем данные статистики
+				$.get('{% url 'TTKakt' %}', {'range': '{{ table_prefix_scroll.3 }}'}, function(data) {
+					$('#akt-data-table').html(data);
+				});
+			};					
+		});
+		
+		// Когда кликают на СТРЕЛКУ ВПРАВО {{ table_prefix_scroll.5 }}
+		$('.fa-caret-square-right').click(function(e){
+		    // Загружаем nav_mounth
+			$.get('{% url 'buh_nav_mounth' %}', {'range': '{{ table_prefix_scroll.5 }}'}, function(data) {
+				$('#nav_mounth').html(data);
+			});
+			if ($('#commondata-tab').attr('class') == 'nav-link active') {
+			    // Загружаем данные статистики
+			    $.get('{% url 'Summ_Stoim_TTK' %}',{'range': '{{ table_prefix_scroll.5 }}'}, function(data) {$('#usl-cost input').val(data);});  
+			    $('#usl-cost input').change();
+			};	
+			if ($('#akt-tab').attr('class') == 'nav-link active') {
+				// Крутиться спинер
+			    $('#akt-data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 
+			    // Загружаем данные статистики
+				$.get('{% url 'TTKakt' %}', {'range': '{{ table_prefix_scroll.5 }}'}, function(data) {
+					$('#akt-data-table').html(data);
+				});
+			};		
+			if ($('#vigruz-tab').attr('class') == 'nav-link active') {
+			    var file_range = "{{ table_prefix_scroll.5 }}";
+			    file_range = file_range.slice(0, 4) + "_" + file_range.slice(4, 6);
+				$('#label_range_ANI').html(file_range);
+				$('#label_range_BIL').html(file_range);
+				$('#label_range_CUS').html(file_range);
+			};			
+
+			
+		});		
+
+		
+	});
+</script>	

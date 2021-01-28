@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="ru">
+	<head>
+		<link rel="shortcut icon" href="{% static 'Icons/icon-rusn.svg' %}" type="image/svg+xml">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="{% static 'bootstrap-4.3.1/css/bootstrap.min.css' %}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/mdb.min.css' %}">
+		<!-- Your custom styles (optional) -->
+		<link href="{% static 'MDB-Free_4.8.5/css/style.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'MDB-Free_4.8.5/css/addons/datatables.min.css' %}">  
+  		<title>РосТелеКом</title>
+	</head>
+	<body>
+{% include 'bar_buh.html' %}
+{% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
+{% if user.is_staff %}
+
+<form action="#" method="post" >
+		<div class="container-fluid" id="dtBasicExample" data-range="0">
+			<!-- СКАКАЛКА ПО МЕСЯЦАМ -->
+			<div id="nav_mounth" class="row"></div>
+			<div class="row">
+				<div class="col-sm-12">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						  <li class="nav-item"><a class="nav-link active" id="commondata-tab" data-toggle="tab" href="#my_map" role="tab" aria-controls="my_map" aria-selected="true">Общие данные</a></li>
+						  <li class="nav-item"><a class="nav-link" id="akt-tab" data-toggle="tab" href="#akt-data" role="tab" aria-controls="akt-data" aria-selected="false">Отчет по трафику</a></li>
+						  <li class="nav-item"><a class="nav-link" id="vigruz-tab" data-toggle="tab" href="#staistik" role="tab" aria-controls="staistik" aria-selected="false">Выгрузки Excel</a></li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+					<!-- Общие данные -->
+						<div class="tab-pane fade show active" id="my_map" role="tabpanel" aria-labelledby="commondata-tab">
+							<div class="row">
+								<div class="col-sm-12" id="usl-cost">	
+									<label> Условная стоимость без НДС составила: </label><input type="text" value=""><label>руб.</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12" id="usl-nash-cost">	
+									<label> По данным ТТК Условная стоимость без НДС составляет: </label><input type="text" value=""><label>руб.</label>
+								</div>
+							</div>
+							<div class="row">								
+								<div class="col-sm-12">	
+									<label>Расхождение составило: <b id="za">3.56</b>%</label>
+								</div>
+							</div>
+						</div>
+					<!-- Акт приемки -->
+						<div class="tab-pane fade" id="akt-data" role="tabpanel" aria-labelledby="akt-tab">
+							<div class="row" id="akt-data-table"></div>
+						</div>
+					<!-- Выгрузки CSV -->
+						<div class="tab-pane fade" id="staistik" role="tabpanel" aria-labelledby="vigruz-tab">
+							<h5>Выгрузки Excel</h5>
+								<div class="tab-pane fade show active" id="my_map" role="tabpanel" aria-labelledby="commondata-tab">
+									<div class="row">
+										<div class="col-sm-12 col-md-3">
+											<label>Отчет 0301_25_1176_17_CUS_<label id="label_range_CUS">2019_09</label>.xlsx</label>
+										</div>
+										<div class="col-sm-12 col-md-1">
+											<a id="cus_url" href="#"><input class="btn-sm btn-primary" type="button" name="cus_key" id="cus-save-btn" value="Загрузить"></a>
+										</div>										
+									</div>
+									<div class="row">
+										<div class="col-sm-12 col-md-3">	
+											<label>Отчет 0301_25_1176_17_BIL_<label id="label_range_BIL">2019_09</label>.xlsx</label>
+										</div>
+										<div class="col-sm-12 col-md-1">	
+											<a id="bil_url" href="#"><input class="btn-sm btn-primary" type="button" name="bil_key" id="bil-save-btn" value="Загрузить"></a>
+										</div>							
+									</div>
+								</div>							
+							<table id="dtStatistik" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%" data-statrange=""></table>
+						</div>					
+					</div>					
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'MDB-Free_4.8.5/js/mdb.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			// Когда страница загрузилась
+			$(document).ready(function() {
+				$('#PTK').addClass('active');
+			    // Загружаем nav_mounth
+			    //alert ("rerwerr") ;
+				$.get('{% url 'nav_mounth_TTK' %}', {'range': $('#dtBasicExample').data('range')}, function(data) {
+					$('#nav_mounth').html(data);
+				});
+			});
+
+			// Когда кликают на закладку ОБЩИЕ ДАННЫЕ
+			$('#commondata-tab').click(function(e){
+				if ( $('#dtBasicExample').data('range') != $('#dtBasicExample').data('logsview') ) {
+				    // Загружаем данные
+				    $.get('{% url 'Summ_Stoim_RTK' %}',{'range': $('#dtBasicExample').data('range')}, function(data) {$('#usl-cost input').val(data);});  
+				    $('#usl-cost input').change();
+				};			
+			});
+
+			// Когда кликают на закладку АКТ ПРИЕМКИ
+			$('#akt-tab').click(function(e){
+				//alert ($('#dtBasicExample').data('range'));
+				if ( $('#dtBasicExample').data('range') != $('#dtBasicExample').data('logsview') ) {
+				    // Загружаем данные
+					$.get('{% url 'RTKsumm' %}', {'range': $('#dtBasicExample').data('range')}, function(data) {
+							$('#akt-data-table').html(data);
+					});
+				};
+			});
+			
+			// Когда кликают на закладку ВЫГРУЗКИ
+			$('#vigruz-tab').click(function(e){
+				//alert ($('#dtBasicExample').data('range') + " - " +  $('#dtBasicExample').data('statrange'));
+				if ( $('#dtBasicExample').data('range') != $('#dtBasicExample').data('statrange') ) {
+				    // Загружаем данные
+				    var file_range = $('#dtBasicExample').data('range');
+				    file_range = file_range.slice(0, 4) + "_" + file_range.slice(4, 6);
+					$('#label_range_ANI').html(file_range);
+					$('#label_range_BIL').html(file_range);
+					$('#label_range_CUS').html(file_range);
+				};
+			});
+			// Когда нажимают кнопку СОХРАНИТЬ АКТ
+			$('#akt-save-btn').click(function(e){
+				document.getElementById('my_url').href = "{% url 'export_TTK_to_xlsm' %}?range=" + $('#dtBasicExample').data('range') 
+								+ "&num_chet=" + document.getElementById('num_chet').value 
+								+ "&num_sf=" + document.getElementById('num_sf').value
+								+ "&num_akt=" + document.getElementById('num_akt').value;
+			});
+
+			// Когда нажимают кнопку СОХРАНИТЬ BIL
+			$('#bil-save-btn').click(function(e){
+				document.getElementById('bil_url').href = "{% url 'export_RTK_to_xlsx' %}?range=" + $('#dtBasicExample').data('range') + "&type=BIL";
+				//alert("BIL");
+			});
+			// Когда нажимают кнопку СОХРАНИТЬ CUS
+			$('#cus-save-btn').click(function(e){
+				document.getElementById('cus_url').href = "{% url 'export_RTK_to_xlsx' %}?range=" + $('#dtBasicExample').data('range') + "&type=CUS";
+				//alert("CUS");
+			});			
+
+			// Обработка для поиска когда нажимается клавиша при вводе
+			$('#usl-cost input').change(function(e){ 
+				var zach = $('#usl-cost input').val();
+				var ttk = $('#usl-nash-cost input').val();
+				zach = ((ttk-zach)/ttk)*100				
+				//alert(zach.toFixed(2));
+				$('#za').html(zach.toFixed(2))
+			});
+			$('#usl-nash-cost input').change(function(e){ 
+				$('#usl-cost input').change();
+			});
+		});
+	</script>
+</form>
+	</body>
+</html>

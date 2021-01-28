@@ -1,0 +1,35 @@
+<div class="col-sm-12">			
+	<table id="dtBasicExample1" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+		<thead>
+		    <tr>
+				<th>Тип</th>
+				<th>Минуты</th>
+				<th>Сумма</th>
+		    </tr>
+		</thead>
+		<tbody>{% for ttk_data in table_data %}
+		   	<tr>
+		   		<td>{{ ttk_data.0 }}</td>
+		   		<td>{{ ttk_data.1 }}</td>
+		   		<td>{{ ttk_data.2 }}</td>
+		   </tr>{% endfor %}
+	   </tbody> 
+		<tfoot>
+		    <tr>
+				<th></th>
+				<th style="font-size: 1.5rem;">ВСЕГО:</th>
+				<th style="font-size: 1.5rem;">{{ summ }}</th>
+		    </tr>
+		</tfoot>		   
+	</table>
+</div>
+{% load static %}
+<script src="{% static 'MDB-Free_4.8.5/js/addons/datatables.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		$('#dtBasicExample1').DataTable({
+			"ordering": true 
+			});
+		$('.dataTables_length').addClass('bs-select');	  
+	});
+</script>

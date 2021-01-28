@@ -1,0 +1,59 @@
+<div class="col-sm-12">			
+	<table id="dtBasicExample1" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+		<thead>
+		    <tr>
+				<th>Наименование Пользователя</th>
+				<th>Номер Договора</th>
+				<th>Номер счета</th>
+				<th>Сумма без НДС</th>
+				<th>Услуга</th>
+				<th>Доход без НДС</th>
+				<th>Доход с НДС</th>
+				<th>УС без НДС</th>	
+				<th>УС с НДС</th>
+				<th>Возн. без НДС</th>
+				<th>Возн. с НДС</th>
+		    </tr>
+		</thead>
+		<tbody>{% for ttk_data in table_data %}
+		   	<tr>
+		   		<td>{{ ttk_data.0 }}</td>
+		   		<td style="font-size: .7rem;" >{{ ttk_data.1 }} от {{ ttk_data.2 }}</td>
+		   		<td style="font-size: .7rem;" >{{ ttk_data.5 }} от {{ ttk_data.6 }}</td>
+		   		<td>{{ ttk_data.7 }}</td> <!-- |date:"SHORT_DATETIME_FORMAT"  -->
+		   		<td>{% ifequal ttk_data.8 2 %}МГ{% endifequal %}{% ifequal ttk_data.8 4 %}МН{% endifequal %}</td> <!-- IF {{ ttk_data.8 }} == 2 THEN "МГ" ELSE "МН"  -->
+		   		<td>{{ ttk_data.9 }}</td>
+		   		<td>{{ ttk_data.10 }}</td>
+		   		<td>{{ ttk_data.11 }}</td>
+		   		<td>{{ ttk_data.12 }}</td>
+		   		<td>{{ ttk_data.13 }}</td>
+		   		<td>{{ ttk_data.14 }}</td>
+		   </tr>{% endfor %}
+	   </tbody> 
+		<tfoot>
+		    <tr>
+				<th></th>
+				<th></th>
+				<th style="font-size: 1.5rem;">ВСЕГО:</th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th style="font-size: 1.5rem;">{{ summ }}</th>	
+				<th></th>
+				<th></th>
+				<th></th>
+		    </tr>
+		</tfoot>		   
+	</table>
+</div>
+{% load static %}
+<script src="{% static 'MDB-Free_4.8.5/js/addons/datatables.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		$('#dtBasicExample1').DataTable({
+			"ordering": true 
+			});
+		$('.dataTables_length').addClass('bs-select');	  
+	});
+</script>

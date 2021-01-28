@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">БУХГАРТЕРИЯ</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item" id="main">
+        <a class="nav-link" href="{% url 'wellcomeb' %}">Главная<span class="sr-only">(current)</span></a>
+      </li>    
+      <li class="nav-item" id="TTK">
+        <a class="nav-link" href="{% url 'TTK_main' %}">ТТК<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" id="PTK">
+        <a class="nav-link" href="{% url 'RTK_main' %}">РТК</a>
+      </li>
+      <li class="nav-item" id="ballance">
+        <a class="nav-link" href="{% url 'ballansy' %}">Баллансы</a>
+      </li>
+      <li class="nav-item" id="compare">
+        <a class="nav-link" href="{% url 'compare_sf' %}">Сравнение СФ</a>
+      </li>
+      <li class="nav-item" id="ballance">
+        <!-- <a class="nav-link" href="">Вернуться в КУРС</a> -->
+      </li>      
+    </ul>
+  </div>
+</nav>

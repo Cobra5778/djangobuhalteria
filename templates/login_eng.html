@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style_common.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+<head>
+  <meta charset="utf-8">
+  <title>Authorization</title>
+</head>
+<body>
+  {% if error_message %}<p><strong><font color=#333399>{{ error_message }}</font></strong></p>{% endif %}
+  		<h1><p><strong>Hi, <br> mysterious stranger.</strong></p></h1>
+		<p>It's time to log in. <br>(If you do not understand what the hell, ask the administrator)</p>
+	<form action="{% url 'logins' %}" method="post">
+		<img src="{% static 'kurs.png' %}" alt="Radio Network monitoring and Control" />
+		<table border=0>
+			<tr>
+				<td width="220"> 
+				  <p style="text-align:left"><b>Логин:</b><br>
+				   <input type="text" size="40" name="username" value="">
+				  </p>
+				  <p style="text-align:left"><b>Пароль:</b><br>
+				   <input type="password" size="40" name="password" value="">
+				  </p>
+		 		</td>
+		 	</tr>
+		</table>
+		<input type="submit" name="login" id=1 value="Enter">
+	</form>
+</body>

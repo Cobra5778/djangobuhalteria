@@ -1,0 +1,63 @@
+<div class="col-sm-12">
+	<div class="row justify-content-center" style="font-size: 1.5rem;" id="nav-mount-data" data-left="{{ table_prefix_scroll.3 }}" data-right="{{ table_prefix_scroll.5 }}">
+		{% if table_prefix_scroll.4 %}<a href="#">&nbsp;<i class="far fa-caret-square-left" ></i>&nbsp;</a>{% endif %}
+	  	{{ table_prefix_scroll.2|date:"F-Y" }}
+	  	{% if table_prefix_scroll.6 %}<a href="#">&nbsp;<i class="far fa-caret-square-right"></i>&nbsp;</a>{% endif %}
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		// Когда страница загрузилась
+		$(document).ready(function() {
+			// Присваиваем текущуу значение глобальной переменной
+			$('#dtBasicExample').data({'range': '{{ table_prefix_scroll.0 }}'});
+		});
+		// Когда кликают на СТРЕЛКУ ВЛЕВО {{ table_prefix_scroll.3 }}
+		$('.fa-caret-square-left').click(function(e){
+		    // Загружаем nav_mounth
+			$.get('{% url 'nav_ballansy' %}', {'range': '{{ table_prefix_scroll.3 }}'}, function(data) {
+				$('#nav_mounth').html(data);
+			});
+			if ($('#commondata-tab').attr('class') == 'nav-link active') {				
+				// Крутиться спинер
+			    $('#akt-data-table2').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+			    // Загружаем данные
+			    $.get('{% url 'ballansy_uriki' %}',{'range': '{{ table_prefix_scroll.3 }}'}, function(data) {
+			    	$('#akt-data-table2').html(data);
+			    });
+			};
+			if ($('#akt-tab').attr('class') == 'nav-link active') {
+				// Крутиться спинер
+			    $('#akt-data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+			    // Загружаем данные
+			    $.get('{% url 'ballansy_fiziki' %}',{'range': '{{ table_prefix_scroll.3 }}'}, function(data) {
+			    	$('#akt-data-table').html(data);
+			    });	
+			};		
+		});
+
+		// Когда кликают на СТРЕЛКУ ВПРАВО {{ table_prefix_scroll.5 }}
+		$('.fa-caret-square-right').click(function(e){
+		    // Загружаем nav_mounth
+			$.get('{% url 'nav_ballansy' %}', {'range': '{{ table_prefix_scroll.5 }}'}, function(data) {
+				$('#nav_mounth').html(data);
+			});
+			if ($('#commondata-tab').attr('class') == 'nav-link active') {
+				// Крутиться спинер
+			    $('#akt-data-table2').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+			    // Загружаем данные
+			    $.get('{% url 'ballansy_uriki' %}',{'range': '{{ table_prefix_scroll.5 }}'}, function(data) {
+			    	$('#akt-data-table2').html(data);
+			    });					
+			};	
+			if ($('#akt-tab').attr('class') == 'nav-link active') {
+				// Крутиться спинер
+			    $('#akt-data-table').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div></div>'); 					
+			    // Загружаем данные
+			    $.get('{% url 'ballansy_fiziki' %}',{'range': '{{ table_prefix_scroll.5 }}'}, function(data) {
+			    	$('#akt-data-table').html(data);
+			    });	
+			};
+		});		
+	});
+</script>	
