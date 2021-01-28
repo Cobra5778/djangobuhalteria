@@ -7,9 +7,8 @@ from datetime import datetime, date
 
 config = configparser.RawConfigParser()
 config.read(os.path.abspath(os.curdir) + '/djangobuhalteria/config.cfg')
-config.read('/home/earth/PycharmProjects/djangobuhalteria/djangobuhalteria/config.cfg')
+#config.read('/home/earth/PycharmProjects/djangobuhalteria/djangobuhalteria/config.cfg')
 
-#path = config.get('path', 'value')
 MySQLUser = config.get('MySQL', 'User')
 MySQLPass = config.get('MySQL', 'Pass')
 MySQLDatabase = config.get('MySQL', 'Database')
@@ -101,7 +100,7 @@ def bill_groups():
     cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     cursor.execute("SELECT * FROM contract_group CG WHERE CG.`enable` = 1")
-    my_result = cursor 
+    my_result = cursor
     cursor.close()
     cnx.close()
     return my_result
@@ -111,15 +110,14 @@ def SQL_to_CSV_old(mySQLQuery = "SELECT * FROM contract limit 10", decode = True
     cnx = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="latin1", use_unicode = True) #charset="cp1251",
     cursor = cnx.cursor()
     cursor.execute(mySQLQuery)
-    my_result = [] 
+    my_result = []
     my_row = []
     num = 0
     for row in cursor:
         num += 1
-        if numeric: 
+        if numeric:
             my_row.append(num)        
         for i in row:
-            #print (type(i))
             if type(i) == unicode and decode: #unicode and decode
                 i = i.encode(encoding = 'cp1251')
                 my_row.append(i)
@@ -203,9 +201,7 @@ def TTK_all(range_data):
         GROUP BY LogS.`cid`, LogS.`zone`
         ORDER BY bl.`format_number`
         limit 500 """.format(YEAR, my_mount(int(MOUNHT)), my_mount(int(MOUNHT) - 1))
-    print (forsed_scripts_query)
     cursor.execute(forsed_scripts_query)
-    #for (NAIMENOVANIE,Contract_N,Date_zakluch,INN,KPP,Doc_N,Date_SF,summ,Usluga,Dohod_non_NDS,Dohod,Usl_Summ_non_NDS,Usl_Summ,Voznag_non_NDS,Voznag) in cursor:
     for row in cursor:
         k = []
         for i in range(0, len(row)):
@@ -217,7 +213,6 @@ def TTK_all(range_data):
             else:
                 k.append("")                            
         my_table.append(k)
-        #print (NAIMENOVANIE.encode("utf8"))
     cursor.close()
     cnx.close()
     return my_table
@@ -240,8 +235,3 @@ def SQL_to_CSV(mySQLQuery = "SELECT * FROM contract limit 10", decode = True, nu
     cursor.close()
     cnx.close()
     return my_result
-
-#print TTK_all()[0][2]
-#print TTK_summ()
-#print (SQL_to_CSV(decode = False))
-#print(nav_mounth_scroll(range_data = 0))
