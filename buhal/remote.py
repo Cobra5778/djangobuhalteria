@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# vim:fileencoding=utf-8
 
 import os, configparser, MySQLdb
 from datetime import datetime, date
@@ -14,9 +13,6 @@ MySQLPass = config.get('MySQL', 'Pass')
 MySQLDatabase = config.get('MySQL', 'Database')
 MySQLHost = config.get('MySQL', 'Host')
 
-#    Пингует хост на доступность
-#    Доступен - возвращает True
-#    Не доступен - False
 def check_host(host):
     response = os.system("ping -c 1 -W 1 " + host)
     if response == 0:
@@ -61,13 +57,9 @@ def delta_mount(range_data = '202101', delta = -1):
 def nav_mounth_scroll(range_data = 0):
     table_prefix_scroll = []
     now_date = datetime.today()
-    #range_data = range_data.decode() # print(codecs.decode(b, 'UTF-8')) print(str(b, 'UTF-8'))
-    #print(range_data.encode('UTF-8'))
     if range_data == '0':
         range_data = cr_table_prefix(now_date)
         range_data = delta_mount(range_data, -1)
-    #else:
-    #    range_data = range_data.encode('UTF-8')
     table_prefix_scroll.append(range_data)
     table_prefix_scroll.append(True)
     table_prefix_scroll.append(datetime.strptime(range_data, "%Y%m"))
@@ -105,30 +97,6 @@ def bill_groups():
     cnx.close()
     return my_result
 
-# Не используется
-def SQL_to_CSV_old(mySQLQuery = "SELECT * FROM contract limit 10", decode = True, numeric = False):
-    cnx = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="latin1", use_unicode = True) #charset="cp1251",
-    cursor = cnx.cursor()
-    cursor.execute(mySQLQuery)
-    my_result = []
-    my_row = []
-    num = 0
-    for row in cursor:
-        num += 1
-        if numeric:
-            my_row.append(num)        
-        for i in row:
-            if type(i) == unicode and decode: #unicode and decode
-                i = i.encode(encoding = 'cp1251')
-                my_row.append(i)
-            else:
-                my_row.append(i)
-        my_result.append(my_row)
-        my_row = []
-    cursor.close()
-    cnx.close()
-    return my_result  
-    
 def TTK_summ(range_data = '201909'):
     range_data = range_data.decode()
     cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
@@ -146,7 +114,6 @@ def TTK_summ(range_data = '201909'):
     return round(summ[0],2)
 
 def RTK_summ(range_data = '201909'):
-    #range_data = range_data.decode()
     cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     mySQL = """SELECT sum(LS.oper_session_cost)
@@ -162,7 +129,6 @@ def RTK_summ(range_data = '201909'):
     return round(summ[0],2)
     
 def TTK_all(range_data):
-    #range_data = range_data.decode()
     YEAR = int(range_data[:4])
     MOUNHT = range_data[4:]
     my_table = []
@@ -217,7 +183,7 @@ def TTK_all(range_data):
     cnx.close()
     return my_table
 
-def SQL_to_CSV(mySQLQuery = "SELECT * FROM contract limit 10", decode = True, numeric = False):
+def SQL_to_CSV(mySQLQuery = "SELECT * FROM contract limit 10", numeric = False):
     cnx = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True) #charset="cp1251",
     cursor = cnx.cursor()
     cursor.execute(mySQLQuery)

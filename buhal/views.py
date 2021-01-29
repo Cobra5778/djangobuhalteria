@@ -183,7 +183,7 @@ def ballansy_uriki(request):
             where  C.id=CP.cid and (CP.pid=10 or CP.pid=33) and CB.summa1 is not NULL AND C.fc = 1
             limit 5000""".format(range_data)
     # print (SQL)
-    table_data = SQL_to_CSV(SQL, decode=False)
+    table_data = SQL_to_CSV(SQL)
     return render(request, 'query/ballansy-yuiriki.html', {'table_data': table_data, })
 
 
@@ -224,7 +224,7 @@ def sf_result(request):
                 where CB.yy={1} and CB.mm={2} and (BI.summ<>CB.summa3 or (BI.summ is NULL and CB.summa3>0)) {4} {3}
             limit 5000""".format(range_data, range_data[:4], range_data[4:], addOnSQL, addOn2SQL)
     # print (SQL)
-    table_data = SQL_to_CSV(SQL, decode=False)
+    table_data = SQL_to_CSV(SQL)
     for in_Date in table_data:
         try:
             summSF += float(str(in_Date[7]))
@@ -260,7 +260,7 @@ def ballansy_fiziki(request):
             where  C.id=CP.cid and (CP.pid=10 or CP.pid=33) and CB.summa1 is not NULL AND C.fc = 0
             limit 5000""".format(range_data)
     # print (SQL)
-    table_data = SQL_to_CSV(SQL, decode=False)
+    table_data = SQL_to_CSV(SQL)
     return render(request, 'query/ballansy-fiziki.html', {'table_data': table_data, })
 
 
@@ -284,7 +284,7 @@ def RTKsumm(request):
                 AND CT.tpid=145 /* Код тарифа  TTK-95,88 Ростелеком-137 Ростелеком-145*/
             GROUP BY sid """.format(range_data)
     # print (SQL)
-    table_data = SQL_to_CSV(SQL, decode=False)
+    table_data = SQL_to_CSV(SQL)
     summ = 0
     for item in table_data:
         summ += item[2]
@@ -536,7 +536,7 @@ def export_ballanse_xlsx(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(out_filename)  # 0301_25_1176_17_CUS_2019_10.xls
 
     worksheet = workbook.worksheets[0]
-    table_data = SQL_to_CSV(mySQL.format(range_data, 0), decode=False, numeric=False)  # Сюда вставить запрос
+    table_data = SQL_to_CSV(mySQL.format(range_data, 0), numeric=False)  # Сюда вставить запрос
     row_num = 0
     for columns in table_data:
         row_num += 1
@@ -546,7 +546,7 @@ def export_ballanse_xlsx(request):
             cell.value = column_title
 
     worksheet = workbook.worksheets[1]
-    table_data = SQL_to_CSV(mySQL.format(range_data, 1), decode=False, numeric=False)  # Сюда вставить запрос
+    table_data = SQL_to_CSV(mySQL.format(range_data, 1), numeric=False)  # Сюда вставить запрос
     row_num = 0
     for columns in table_data:
         row_num += 1
@@ -634,7 +634,7 @@ def export_RTK_to_xlsx(request):
     # response = HttpResponse()
     response['Content-Disposition'] = 'attachment; filename={}'.format(out_filename)  # 0301_25_1176_17_CUS_2019_10.xls
     worksheet = workbook.worksheets[0]
-    table_data = SQL_to_CSV(mySQL, decode=False, numeric=True)  # Сюда вставить запрос
+    table_data = SQL_to_CSV(mySQL, numeric=True)  # Сюда вставить запрос
     row_num = 0
     for columns in table_data:
         row_num += 1
