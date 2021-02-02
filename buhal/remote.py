@@ -98,7 +98,7 @@ def bill_groups():
     return my_result
 
 def TTK_summ(range_data = '201909'):
-    range_data = range_data.decode()
+    #range_data = range_data.decode()
     cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     mySQL = """SELECT sum(LS.oper_session_cost)
