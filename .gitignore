@@ -1,2 +1,6 @@
 /venv/
 /.idea/
+# Игнорировать настройки текущей Django
+djangobuhalteria/settings.py
+# Игнорировать изменение параметров при Update
+djangobuhalteria/config.cfg
