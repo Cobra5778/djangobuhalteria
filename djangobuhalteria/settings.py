@@ -83,7 +83,7 @@ DATABASES = {
         'HOST': '192.168.0.30',
         'OPTIONS': {
             #~/PycharmProjects/djangokurssoft/djangokurssoft
-            'read_default_file': os.path.abspath(os.curdir) + '/djangobuhalteria/my.cnf',
+            'read_default_file': os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/my.cnf',
         },
     }
 }

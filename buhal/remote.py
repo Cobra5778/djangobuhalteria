@@ -4,9 +4,9 @@
 import os, configparser, MySQLdb
 from datetime import datetime, date
 
+my_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"../.")) + '/djangobuhalteria/'
 config = configparser.RawConfigParser()
-config.read(os.path.abspath(os.curdir) + '/djangobuhalteria/config.cfg')
-#config.read('/home/earth/PycharmProjects/djangobuhalteria/djangobuhalteria/config.cfg')
+config.read(my_path + 'config.cfg')
 
 MySQLUser = config.get('MySQL', 'User')
 MySQLPass = config.get('MySQL', 'Pass')
