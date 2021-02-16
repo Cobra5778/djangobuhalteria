@@ -13,7 +13,8 @@ from openpyxl import load_workbook
 from django.contrib.auth import authenticate, login, logout
 
 #MY_PATH = "/home/earth/PycharmProjects/djangobuhalteria/buhal/"
-MY_PATH = os.path.abspath(os.curdir) + '/buhal/'
+MY_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"../.")) + '/buhal/'
+
 #shablon = 'Ballance.xlsx'
 SHABLON_BALLANCE = 'Ballance.xlsx'
 SHABLON_RTK_CUS = 'RTK_CUS.xlsx'
