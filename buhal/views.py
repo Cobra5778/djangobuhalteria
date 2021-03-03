@@ -299,14 +299,14 @@ def downloadCSV_TTK(request):
     else:
         # Do something for anonymous users.
         return HttpResponseRedirect(reverse('logins', args=[]))
-    my_File_name = "my_filename.csv"
+    my_File_name = MY_PATH + "my_filename.csv"
     range_data = request.GET['range']#.encode('UTF-8')
     ANI = """SELECT
                 c.`title` as `Num_Dog`,    /*Номер договора ТрансТелекома с пользователем*/
-                "-" as `Num_Sub`,                     /*№ Дог. оператора с Субагентом*/
-                "472" as `ABC`,                    /*ABC код*/
+                "-" as `Num_Sub`,                 /*№ Дог. оператора с Субагентом*/
+                "472" as `ABC`,                   /*ABC код*/
                 login_alias as `AOH`,             /*АОН*/
-                c.`date1` as `Date_Podkl`,                 /*Дата подключения*/
+                c.`date1` as `Date_Podkl`,               /*Дата подключения*/
                 c.`date2` as `Date_Otkl`                 /*Дата отключения*/
             FROM `user_login_8` ul, `user_alias_8` ua, `contract` c
             WHERE ua.`login_id` = ul.`id`
