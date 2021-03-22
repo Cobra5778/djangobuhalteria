@@ -20,8 +20,6 @@
 	<body>
 {% include 'bar_buh.html' %}
 {% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
-{% if user.is_staff %}
-
 <form action="#" method="post" >
 		<div class="container-fluid" id="dtBasicExample" data-range="0">
 			<!-- СКАКАЛКА ПО МЕСЯЦАМ -->
@@ -49,6 +47,29 @@
 							<div class="row">								
 								<div class="col-sm-12">	
 									<label>Расхождение составило: <b id="za">3.56</b>%</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+                                    <hr>
+                                    <h5><strong>Алгоритм следующий:</strong></h5>
+                                    <ol>
+                                        <li>Из Данных по договору ТТК №DA000287, который приходит на email, берем общую сумму и вводим в графу "ТТК Условная стоимость". Расхождение должно составлять не более 3%.</li>
+                                        <li>На закладке "Акт приемки" нужно ввести полученные в бухгалтерии "Номер счета", "Номер СФ" и "Номер Акта". После чего жмем: "Выгрузить в файл Excel". И сохраняем его.</li>
+                                        <ul>
+                                            <li>Открываем загруженный файл, жмем "Разрешить редактирование". Потом, если будет вопрос про Запуск макросов: жмем "Включить содержимое".</li>
+                                            <li>Проверчем, что все НОРМ и сохранчем файл.</li>
+                                            <li>И выгружаем отдельно закладку "Книга продаж". Для этого: Жмем правой кнопкой на закладке "Книга продаж", выбираем "Переместит или скопировать". В поле "в книгу", выбираем "(новая книга)". Сохраняем полученный файл.</li>
+                                        </ul>
+                                        <li>Переходим на закладку "Выгрузки CSV". Жмякаем три раза загрузить на три разных файла.</li>
+                                        <li>Отправляем полученные файлы по email в ТТК.</li>
+                                        <ul>
+                                            <li><strong>Кому:</strong> kttk-kz@ttk.ru, V.Akatev@ttk.ru, buh@reinfokom.ru</li>
+                                            <li><strong>Копия:</strong> E.Ivanova@ttk.ru, E.Vorontzova@sever.ttk.ru, A.V.Kara@sever.ttk.ru</li>
+                                            <li><strong>Тема:</strong> Отчетные данные за <месяц> <год> ООО РеИнфоКом DA000287</li>
+                                            <li> Прикрепляем пять полученных ранее файлов: КнигаПродаж, АктПриемки, 3 файла CSV.</li>
+                                        </ul>
+                                    </ol>
 								</div>
 							</div>
 						</div>
@@ -117,7 +138,6 @@
 				</div>
 			</div>
 		</div>
-	{% endif %}
 	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}">	</script>
 	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}">		</script>
 	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}">	</script>

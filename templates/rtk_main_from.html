@@ -20,8 +20,6 @@
 	<body>
 {% include 'bar_buh.html' %}
 {% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
-{% if user.is_staff %}
-
 <form action="#" method="post" >
 		<div class="container-fluid" id="dtBasicExample" data-range="0">
 			<!-- СКАКАЛКА ПО МЕСЯЦАМ -->
@@ -49,6 +47,23 @@
 							<div class="row">								
 								<div class="col-sm-12">	
 									<label>Расхождение составило: <b id="za">3.56</b>%</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+                                    <hr>
+                                    <h5><strong>Алгоритм следующий, здесь все гораздо проще:</strong></h5>
+                                    <ol>
+                                        <li>Заходим сразу на закладку "Выгрузки Excel"</li>
+                                        <li>Загружаем два файлика</li>
+                                        <li>Отправляем полученные файлы по email в РТК.</li>
+                                        <ul>
+                                            <li><strong>Кому:</strong> Elena.V.Voevodina@RT.RU</li>
+                                            <li><strong>Копия:</strong> buh@reinfokom.ru</li>
+                                            <li><strong>Тема:</strong> Отчет по договору №0301/25/1176/17 от 01.01.2018г. РТК <месяц> <год>.</li>
+                                            <li> Прикрепляем два полученных ранее файла.</li>
+                                        </ul>
+                                    </ol>
 								</div>
 							</div>
 						</div>
@@ -83,7 +98,6 @@
 				</div>
 			</div>
 		</div>
-	{% endif %}
 	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
 	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
 	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>

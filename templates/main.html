@@ -19,15 +19,23 @@
 	<body>
 {% include 'bar_buh.html' %}
 {% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
-{% if user.is_staff %}
 <form action="#" method="post">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12">
 				<br>
-				<label>Добро пожаловать в мир бухгалтерии. Прекрастной и беспощадной.</label>
+				<h1>Добро пожаловать в мир бухгалтерии. Прекрастной и беспощадной.</h1>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-12">
+                <h2>Здесь реализованы основные возможности:</h2>
+                <h4><strong>ТТК</strong> - Сравнение суммы вознаграждения для ТТК и подготовка отчетных документов.</h4>
+                <h4><strong>РТК</strong> - Подготовка отчета по трафику и подготовка отчетных документов.</h4>
+                <h4><strong>Баллансы</strong> - баллансы до Юридическим и Физическим лица на конец указанного месяца, с возможностью выгрузки.</h4>
+                <h4><strong>Сравнение СФ</strong> - Если не идет сумма по биллингу и выставленным Счета-Фактурам</h4>
+            </div>
+        </div>
 	</div>
 	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
 	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
@@ -43,7 +51,6 @@
 			$('.dataTables_length').addClass('bs-select');
 			});
 		</script>
-</form>  
-{% endif %}
+</form>
 	</body>
 </html>

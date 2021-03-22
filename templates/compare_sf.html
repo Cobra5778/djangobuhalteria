@@ -20,8 +20,6 @@
 	<body>
 {% include 'bar_buh.html' %}
 {% if error_message %}<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Error!: </strong>{{ error_message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>{% endif %}
-{% if user.is_staff %}
-
 <form action="#" method="post" >
 		<div class="container-fluid" id="dtBasicExample" data-range="0">
 			<div id="nav_mounth" class="row"></div>
@@ -48,7 +46,6 @@
 			 	</div>
 			</div>			
 		</div>
-	{% endif %}
 	<script src="{% static 'MDB-Free_4.8.5/js/jquery-3.4.1.min.js' %}"></script>
 	<script src="{% static 'MDB-Free_4.8.5/js/popper.min.js' %}"></script>
 	<script src="{% static 'MDB-Free_4.8.5/js/bootstrap.min.js' %}"></script>
