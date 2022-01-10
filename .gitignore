@@ -3,4 +3,4 @@
 # Игнорировать настройки текущей Django
 djangobuhalteria/settings.py
 # Игнорировать изменение параметров при Update
-djangobuhalteria/config.cfg
+djangobuhalteria/my.cnf
