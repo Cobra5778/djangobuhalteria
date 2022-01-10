@@ -6,12 +6,12 @@ from datetime import datetime, date
 
 my_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),"../.")) + '/djangobuhalteria/'
 config = configparser.RawConfigParser()
-config.read(my_path + 'config.cfg')
+config.read(my_path + 'my.cnf')
 
-MySQLUser = config.get('MySQL', 'User')
-MySQLPass = config.get('MySQL', 'Pass')
-MySQLDatabase = config.get('MySQL', 'Database')
-MySQLHost = config.get('MySQL', 'Host')
+mySQLUser = config.get('BGMySQL', 'User')
+mySQLPass = config.get('BGMySQL', 'Pass')
+mySQLDatabase = config.get('BGMySQL', 'Database')
+mySQLHost = config.get('BGMySQL', 'Host')
 
 def check_host(host):
     response = os.system("ping -c 1 -W 1 " + host)
@@ -28,7 +28,7 @@ def cr_table_prefix(come_date):
         return "{}{}".format(come_date.year, cmon)
     
 def check_table(table_name):
-    cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
+    cnx   = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     cursor.execute("SHOW TABLES LIKE '{}'".format(table_name))
     if cursor.fetchone():
@@ -47,6 +47,9 @@ def delta_mount(range_data = '202101', delta = -1):
         all_mount = year*12 + mount + delta
         year = round(all_mount/12-0.5)
         mount = all_mount - year*12
+        if mount == 0:
+            year -= 1
+            mount = 12
         if mount < 10:
             return "{}0{}".format(year, mount)
         else:
@@ -54,10 +57,10 @@ def delta_mount(range_data = '202101', delta = -1):
     except:
         return False
 
-def nav_mounth_scroll(range_data = 0):
+def nav_mounth_scroll(range_data = "0"):
     table_prefix_scroll = []
     now_date = datetime.today()
-    if range_data == '0':
+    if range_data == "0":
         range_data = cr_table_prefix(now_date)
         range_data = delta_mount(range_data, -1)
     table_prefix_scroll.append(range_data)
@@ -89,7 +92,7 @@ def my_mount(mount):
         return False
 
 def bill_groups():
-    cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
+    cnx   = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     cursor.execute("SELECT * FROM contract_group CG WHERE CG.`enable` = 1")
     my_result = cursor
@@ -99,7 +102,7 @@ def bill_groups():
 
 def TTK_summ(range_data = '201909'):
     #range_data = range_data.decode()
-    cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
+    cnx   = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     mySQL = """SELECT sum(LS.oper_session_cost)
                 FROM log_session_8_{} LS, contract_tariff CT
@@ -114,7 +117,7 @@ def TTK_summ(range_data = '201909'):
     return round(summ[0],2)
 
 def RTK_summ(range_data = '201909'):
-    cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
+    cnx   = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     mySQL = """SELECT sum(LS.oper_session_cost)
             FROM log_session_8_{} LS, contract_tariff CT
@@ -132,7 +135,7 @@ def TTK_all(range_data):
     YEAR = int(range_data[:4])
     MOUNHT = range_data[4:]
     my_table = []
-    cnx   = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True)
+    cnx   = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True)
     cursor = cnx.cursor()
     forsed_scripts_query = """ SELECT
             concat_ws('',NAIMENOVANIE.`val`, FIO.`val`) as NAIMENOVANIE,    /*Наименование*/
@@ -184,7 +187,7 @@ def TTK_all(range_data):
     return my_table
 
 def SQL_to_CSV(mySQLQuery = "SELECT * FROM contract limit 10", numeric = False):
-    cnx = MySQLdb.connect(user=MySQLUser, passwd=MySQLPass, db=MySQLDatabase, host=MySQLHost, charset="cp1251", use_unicode = True) #charset="cp1251",
+    cnx = MySQLdb.connect(user=mySQLUser, passwd=mySQLPass, db=mySQLDatabase, host=mySQLHost, charset="cp1251", use_unicode = True) #charset="cp1251",
     cursor = cnx.cursor()
     cursor.execute(mySQLQuery)
     my_result = []
