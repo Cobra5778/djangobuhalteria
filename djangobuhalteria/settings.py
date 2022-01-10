@@ -21,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p&3&&1y0si$)#k$&*@q=o5-9gxrfb*6*0jivi#a_u+w7)1d%r*'
+
+SECRET_KEY = 'xxx-xxx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.27', '192.168.0.54']
+ALLOWED_HOSTS = ['192.168.0.27']
+
 
 # Application definition
 
@@ -44,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -78,7 +80,6 @@ WSGI_APPLICATION = 'djangobuhalteria.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        #'HOST': '192.168.0.181',
         'OPTIONS': {
             #~/PycharmProjects/djangokurssoft/djangokurssoft
             'read_default_file': os.path.abspath(os.path.dirname(os.path.abspath(__file__))) + '/my.cnf',
